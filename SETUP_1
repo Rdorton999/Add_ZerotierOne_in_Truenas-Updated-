@@ -1,0 +1,27 @@
+Unlock package management
+
+# sed -i .orig 's/enabled: yes/enabled: no/' /usr/local/etc/pkg/repos/local.conf
+# sed -i .orig 's/enabled: no/enabled: yes/' /usr/local/etc/pkg/repos/FreeBSD.conf
+
+Update & install the package
+
+#pkg update
+#pkg install zerotier
+
+Add on /usr/local/sbin this script with correct permission (in my example zt.sh)
+
+after the join on the last row put your network ID
+
+zt.sh :
+
+#!/bin/bash
+ln -s /usr/local/var/db/zerotier-one /var/db/zerotier-one
+/usr/local/sbin/zerotier-one -d /usr/local/var/db/zerotier-one
+sleep 1
+/usr/local/bin/zerotier-cli join 0123456789012345
+
+Start it after the boot process
+
+TASKS -> init/shutdown scripts
+
+ADD script in the postinit
